@@ -30,6 +30,7 @@ main {
     margin: 1rem 0;
     border-left: none;
     position: relative;
+    overflow: hidden; /* Cuts off the badge and makes it look like its wrapping */
 }
 
 .package:hover,
@@ -77,11 +78,17 @@ main {
     position: absolute; /* Has context of package, so top: 0 and right: 0 make it in the upper right of the package */
     top: 0;
     right: 0;
-    margin: 1.25rem; /* Space OUTSIDE of element, gives it a distance from the package */
+    margin: 0; /* Space OUTSIDE of element, gives it a distance from the package */
     font-size: .75rem;
     color: white;
     background: #ff5454;
     padding: 8px; /* Space WITHIN the element, gives the background a better size */
+    width: 12rem;
+    text-align: center;
+
+    /* rotating the element about its z-axis at 45 degrees and translate (move) about the x axis 3.5rem and the y-axis -1rem*/
+    transform: rotate(45deg) translate(3.5rem, -1rem); 
+    transform-origin: center; /* Rotation axis is center of element */
 }
 
 .package__subtitle {

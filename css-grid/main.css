@@ -1,20 +1,35 @@
 .container {
     margin: 20px;
-    height: 500px;
+    height: 800px;
     display: grid;
-    grid-template-columns: [hd-start] repeat(4, [col-start] 25% [col-end]) [hd-end]; /* Can give names using repeat */
-    grid-template-rows: [hd-start row1] 5rem [hd-end row2] minmax(10px, auto) [row3] 100px [row-end];
+    grid-template-columns: [hd-start] repeat(4, [col-start] 20% [col-end]) [hd-end]; /* Can give names using repeat */
+    grid-template-rows: [hd-start row1] 5rem [hd-end row2] minmax(10px, 20rem) [row3] 100px [row-end];
     /* Shorthand for gaps */
     gap: 10px 20px;
     /* Define areas of our grid using strings that match the number of columns and rows */
     grid-template-areas: "header header header header" 
-                         "side side main main"
+                         ". side main main"
                          "footer footer footer footer";
+    /* Move the grid to the center horizontally and at the bottom vertically relative to the container size
+    justify-content: center;
+    align-content: end; */
+}
+
+@media (max-width: 40rem) {
+    .container {
+        grid-template-rows: [hd-start row1] 5rem [hd-end row2] minmax(10px, 20rem) [row3] 150px [row4] 100px [row-end];
+        /* Define areas of our grid using strings that match the number of columns and rows */
+        grid-template-areas: "header header header header" 
+                             "main main main main"
+                             "side side side side"
+                             "footer footer footer footer";
+    }
 }
 
 .el1 {
     background: rgba(255, 154, 72, 0.5);
-    grid-column: col-start 2 / col-end 2; /* How to reference names that are used in repeat */
+    /* grid-column: col-start 2 / col-end 2; /* How to reference names that are used in repeat */
+    grid-area: side;
 }
 
 .el2 {

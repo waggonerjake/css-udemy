@@ -12,13 +12,22 @@
 body {
     font-family: "Montserrat", sans-serif; /* Look for Montserrat, if it cant find it use sans-serif default font from browser */
     margin: 0;
+    display: grid;
+    grid-template-rows: 3.5rem auto fit-content(8rem); /* although the header doesn't go in the grid, we still make the 
+                                                        space for it so the other elements go skip past it. We use
+                                                        fit-content for the footer because it grows in size when we are
+                                                        on mobile devices. So 8rem isn't enough on mobile but is on desktop.*/
+    grid-template-areas: "."
+                         "main"
+                         "footer";
 }
 
 main {
-    min-height: calc(100vh - 3.5rem - 8rem); /* full screen - size of nav bar - space for footer. This allows us
+   /* min-height: calc(100vh - 3.5rem - 8rem); /* full screen - size of nav bar - space for footer. This allows us
                                                 to have a tight fitting footer. 3.5 includes size and padding of nav bar
                                                 and the 8rem is the size of footer (padding, content, and margin)*/
-    margin-top: 3.5rem; /* So we can skip past the nav bar */
+    /* margin-top: 3.5rem; /* So we can skip past the nav bar */
+    grid-area: main;
 }
 
 .backdrop {
@@ -200,6 +209,7 @@ main {
     background: black;
     padding: 2rem;
     margin-top: 3rem;
+    grid-area: footer;
 }
 
 .main-footer__links {
