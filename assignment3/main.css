@@ -1,0 +1,39 @@
+html {
+    height: 100%;
+}
+
+body {
+    display: grid;
+    margin: 20px;
+    height: 100%;
+    grid-template-columns: [col1] 1fr [col2] 3fr [col-end];
+    grid-template-rows: [row1] 4.5rem [row2] auto [row3] 4.5rem [row-end];
+    grid-template-areas: "header header"
+                         "sidebar main"
+                         "footer footer";
+    gap: 10px;
+}
+
+header {
+    background: blue;
+    color: white;
+    grid-area: header;
+}
+
+main {
+    background: red;
+    color: white;
+    grid-area: main;
+}
+
+aside {
+    background: green;
+    color: white;
+    grid-area: sidebar;
+}
+
+footer {
+    background: purple;
+    color: white;
+    grid-area: footer;
+}

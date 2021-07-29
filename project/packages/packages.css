@@ -1,0 +1,131 @@
+/* Importing our own font */
+@font-face {
+    font-family: "AnonymousPro";
+    src: url("AnonymousPro-Regular.ttf") format("truetype"); /* Add truetype because its a ttf */
+}
+
+@font-face {
+    font-family: "AnonymousPro";
+    src: url("AnonymousPro-Bold.ttf") format("truetype");
+    font-weight: 700; /* Need this property to differentiate from the other Anonymous pro */
+}
+
+main {
+    padding-top: 2rem;
+}
+
+.background {
+    background: url("../assets/plans-background.jpg") center/cover; /* crop equally the top and bottom and make sure there
+                                                                        is no whitespace */
+    filter: grayscale(65%);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: -1; /* Defaults to 0, negatives move behind, positives move in front */
+}
+
+.package {
+    width: 80%;
+    border: 4px solid #0e4f1f;
+    margin: 1rem 0;
+    border-left: none;
+    position: relative;
+}
+
+.package:hover,
+.package:active {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    border-color: #ff5454;
+}
+
+.plus {
+    background: rgba(213, 255, 220, 0.95);
+}
+
+.clearfix {
+    clear: both;
+}
+
+.free {
+    background: rgba(234, 252, 237, 0.95);
+    float: right; /* Good to use for images if you want them floating around, not great for other elements */
+    border-left: 4px solid #0e4f1f;
+    border-right: none;
+    text-align: right;
+}
+
+.premium {
+    background: rgba(13, 79, 31, 0.95);
+}
+
+.plan {
+    text-decoration: none;
+    padding: 2rem;
+    color: inherit;
+    display: block; /* This is so the <a> tag takes up the entire size of the container and can be click throughout */
+}
+
+.package__title {
+    color: black;
+}
+
+.premium .package__title{
+    color: white;
+}
+
+.package__badge {
+    position: absolute; /* Has context of package, so top: 0 and right: 0 make it in the upper right of the package */
+    top: 0;
+    right: 0;
+    margin: 1.25rem; /* Space OUTSIDE of element, gives it a distance from the package */
+    font-size: .75rem;
+    color: white;
+    background: #ff5454;
+    padding: 8px; /* Space WITHIN the element, gives the background a better size */
+}
+
+.package__subtitle {
+    color: #979797;
+}
+
+.premium .package__subtitle {
+    color: #bbb;
+}
+
+.package__description {
+    color: #0e4f1f;
+    padding: 1rem;
+    border: 1px black solid;
+    background: white;
+    font-size: 1.25rem;
+    /* font-family: 'AnonymousPro', sans-serif; /* Overrides body font-family */
+    /* font-weight: 700; */
+
+    /* shorthand for the font. size and family need to be the last 2 values and are required. 
+        anything else like weight, style, or variant must come before. If you want a line height, 
+        you add it with a slash directly after the font size, so like /2 would give it a line height 
+        that is twice the size of the font size.
+    font: 700 1.25rem 'AnonymousPro', sans-serif; */
+
+    /* Can also use some pre-made font descriptions, such as caption, menu, status-bar, etc.
+        font: menu;
+    */
+}
+
+@media (min-width: 40rem) {
+    main {
+        max-width: 93.75rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+}
+
+@media (min-width: 93.75rem) {
+    .free {
+        border-right: 4px solid #0e4f1f;
+    }
+
+    .package {
+        border-left: 4px solid #0e4f1f;
+    }
+}

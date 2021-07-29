@@ -1,0 +1,16 @@
+.box {
+    padding: 5px 10px 15px 20px;
+    border: cyan 5px solid;
+    margin: 10px 20px 30px 40px;
+    display: inline-block;
+}
+
+#first {
+    height: 300px;
+    width: 50%;
+    display: none;
+}
+
+.box:last-of-type:hover {
+    border: darkblue 5px solid;
+}

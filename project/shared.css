@@ -1,0 +1,249 @@
+/* Import fonts from google fonts globally */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+@import url('https://fonts.googleapis.com/css2?family=Anton');
+
+/* Set every element to use border-box so we can set width and height including padding & border (not margin) */
+* {
+    box-sizing: border-box;
+}
+
+/* Use body selector to set global attributes */
+body {
+    font-family: "Montserrat", sans-serif; /* Look for Montserrat, if it cant find it use sans-serif default font from browser */
+    margin: 0;
+}
+
+main {
+    min-height: calc(100vh - 3.5rem - 8rem); /* full screen - size of nav bar - space for footer. This allows us
+                                                to have a tight fitting footer. 3.5 includes size and padding of nav bar
+                                                and the 8rem is the size of footer (padding, content, and margin)*/
+    margin-top: 3.5rem; /* So we can skip past the nav bar */
+}
+
+.backdrop {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100vw; /* Take 100% of viewport width */
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+}
+
+.main-header {
+    background: #2ddf5c;
+    padding: .5rem 1rem;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    /* Align my items vertically and space them out from end to end using flexbox */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle-button {
+    width: 3rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding-top: 0;
+    padding-bottom: 0;
+    vertical-align: middle;
+  }
+  
+  .toggle-button:focus {
+    outline: none;
+  }
+  
+  .toggle-button__bar {
+    width: 100%;
+    height: 0.2rem;
+    background: black;
+    display: block;
+    margin: 0.6rem 0;
+  }  
+
+.main-header__brand {
+    color: #0e4f1f;
+    text-decoration: none; /* removes underlining from hyperlink */
+    font-weight: bold;
+}
+
+.main-header__brand img {
+    height: 2.5rem;
+    vertical-align: middle; /* Used to align the brand image with the hamburger button */
+}
+
+.main-nav {
+    display: none;
+}
+
+.main-nav__items {
+    /* removing the padding and margin so we can make it thinner */
+    padding: 0;
+    margin: 0;
+    list-style: none; /* removes bullet points */
+    display: flex;
+}
+
+.main-nav__item {
+    margin: 0 1rem;
+}
+
+.main-nav__item a,
+.mobile-nav__item a {
+    color: #0e4f1f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Add a string after the <a> tag
+.main-nav__item a::after {
+    content: " (Link)";
+    color: red;
+}
+*/
+
+/* Pseudo-classes */
+.main-nav__item a:hover,
+.main-nav__item a:active {
+    color: white;
+    border-bottom: 5px solid white;
+}
+
+/* since this is after main-nav__item a it will override that rule */
+.main-nav__item--cta a,
+.mobile-nav__item--cta a {
+    color: white;
+    background: #ff1b68;
+    padding: .5rem 1rem;
+    border-radius: 8px; /* give a rounded border */
+}
+
+.main-nav__item--cta a:hover,
+.main-nav__item--cta a:active,
+.mobile-nav__item--cta a:hover,
+.mobile-nav__item--cta a:active{
+    color: #ff1b68;
+    background: white;
+    border: none;
+}
+
+.mobile-nav {
+    position: fixed;
+    display: none;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background: white;
+    width: 80%;
+    height: 100vh;
+  }
+  
+  .mobile-nav__items {
+    height: 100%;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    /* Display the mobile nav items on top of each other using the column positioning
+    and then lay them out in the center of the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .mobile-nav__item {
+    margin: 1rem 0;
+  }
+  
+  .mobile-nav__item a {
+    font-size: 1.5rem;
+  }
+
+.button {
+    background: #0e4f1f;
+    color: white;
+    font: inherit;
+    border: 1.5px solid #0e4f1f;
+    padding: .5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.button:hover,
+.button:active {
+    background: white;
+    color: #0e4f1f;
+}
+
+/* Activated if you tab over it or after you click on it. We want to disable the outline. */
+.button:focus {
+    outline: none;
+}
+
+/* Used for button classes with the disabled attribute */
+.button[disabled] {
+    cursor: not-allowed; /* Makes the cursor a 'no' sign */
+    border-color: #a1a1a1;
+    background: #ccc;
+    color: #a1a1a1;
+}
+
+.main-footer {
+    background: black;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.main-footer__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-footer__link {
+    margin: .5rem 0;
+}
+
+.main-footer__link a {
+    color: white;
+    text-decoration: none;
+}
+
+.main-footer__link a:hover,
+.main-footer__link a:active {
+    color: #ccc
+}
+
+.open {
+    display: block !important; /* Need to use important so we can override other styles from the shared file */
+}
+
+@media (min-width: 40rem) {
+    .toggle-button {
+        display: none;
+    }
+
+    .main-nav {
+        display: flex;
+    }
+
+    .main-footer__links {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .main-footer__link {
+        margin: 0 1rem;
+    }
+}

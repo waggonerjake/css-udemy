@@ -1,0 +1,645 @@
+/*
+NOTES
+//////////////////////////////////////
+Random:
+Block level elements, like h1, always take the full width by default and therefore will stack on top
+of each other rather than be side by side
+
+To change height of elements relative to page (using %), you need to pass page height
+down from HTML to body to all the down to your element. This is needed when your element is static/relative
+and the element you want to take a percentage of is also static/relative.
+
+Using 'box-sizing: border-box' will include the dimensions of the padding and border in
+the height and width calculation, rather than just the content. This means the width and height will stay fixed
+when changing the padding or border, but the difference is made up by increasing/decreasing the content.
+
+Inline level elements, like a, don't take the full width
+
+Using 'display: none' keeps the element in the DOM but not viewable, so then it can be
+shown later using JS or something
+
+Using 'visibility: hidden' just makes the element invisible, it doesn't remove it from the document or DOM
+
+When aligning things, be sure to add the alignment property to all the elements you want to align with each other
+
+Can combine a selector with a class or ID to add style to specific element if it contains a class/ID, referenced by
+using selector.class or selector#id
+
+Classes are better to reference in CSS than IDs, even if you only have 1 element that uses that class
+
+If you cant seem to get the right spacing, it may be needed to remove the margin and padding of the parent element
+
+Viewport = Browser window
+
+Image tags will default to their original width and height regardless of what you set the surrounding container dimensions 
+to be. The size can be changed using pixel values, or percentages if the container is inline-block or block.
+
+Since background images don't show up in the DOM as elements, they are bad for accessibility and should only be used for
+backgrounds not for something like buttons.
+
+Filters allow to change appearance of an element using some function, like blur or grayscale.
+
+When using JS, you can get your element by using querySelector and passing in a css selector.
+
+In JS, you can access the 'style' property of an element that will add/remove inline styles.
+
+Outlines come after the border and does not count towards the box size or shadow.
+
+Even if you set your input/select/label elements as block, you still need to set the width to 100% to use the full page width.
+
+Input elements tend to have many browser defaults.
+
+Vertical-align positions inline elements vertically within block elements whereas text-align positions inline elements
+horizontally in block elements.
+
+Can use the function minmax(min, max) to set a dynamic value within bounds. Good for CSS Grid.
+
+------------------------------------------------------
+
+Selectors:
+Can have element selectors, referenced by <tag>, e.g. h1
+
+Can have class selectors, referenced by .class-name
+
+Can have universal selectors, referenced by *
+
+Can have an ID selector to style a specific element, referenced by #ID
+
+Can have attribute selectors, referenced by [attribute], e.g. [disabled]
+
+Advanced attribute selectors {
+    Element with specific value {
+        [type="email] would match to something like <input type="email">
+    },
+    Element with specific attribute in list {
+        [lang~="en-us"] would match to something like <p lang="en-us en-gb">
+    },
+    Element with specific prefix {
+        [href^="#"] would match to something like <a href="#all">
+    },
+    Element with specific suffix {
+        [href$=".io"] would match to something like <a href="device.io">
+    },
+    Element with at least one attribute value {
+        [src*="homepage"] would match to something like <img src="my.homepage.com">.
+        Can turn off case sensitivity by using 'i' after the selector, such as [src+="homepage" i]
+    }
+}
+
+------------------------------------------------------
+
+Specificity (Aka rule priority):
+Inline > ID > Classes & Attributes > Tag > Universal > Browser Defaults > Inheritance;
+
+Using '!important' overrides specificity, bad practice most of the time;
+
+------------------------------------------------------
+
+Combinator:
+Good to use to be more specific but could have bad performance
+
+Adjacent {
+    written as element1 + element2, can have multiple ones too such as div + p + a; 
+    element2 is styled if it directly follows element1 and has the same parent;
+},
+
+General Sibling {
+    written as element1 ~ element2;
+    element2 is styled if there is any element1 with the same parent;
+},
+
+Child {
+    written as element1 > element2, can also use multiple;
+    element2 must be a direct child of element1;
+},
+
+Descendant {
+    written as element1 element2;
+    Doesn't have to be a direct child, just element1 has to exist somewhere as an upper-level element to element2;
+    Most used
+}
+
+------------------------------------------------------
+
+Box Model:
+CSS sees elements as a box in 4 sections; the Margin -> Border -> Padding -> Content and these 
+properties can be edited in the CSS to change the box
+
+Margin collapsing is when two elements share a margin (e.g. two elements are stacked on top of each other, so the top
+of one and the bottom of the other) where the LARGER MARGIN WINS. Margin collapsing occurs on adjacent objects 
+(like described previously), parent object with the first/last child that has a margin and the parent doesn't have a 
+border/padding/other content, or an empty element with margins.
+
+Margin-top/bottom and padding-top/bottom, as well as width and height, have no effect for Inline elements (by no effect
+I mean it wont move itself or the other elements around).
+
+Inline-block allows for elements to be resized like block elements but also be next to each other like inline. 
+Allows elements to be next to each other (Inline) but acts as a block object like with padding or margin 
+(adding space to top/bottom ).
+
+------------------------------------------------------
+
+Pseudo-classes & pseudo-elements:
+Classes are defined using selector:class whereas elements are defined using selector::element
+
+Classes define a special state of an element whereas elements define a specific part of that element
+
+the 'not(selector)' will include and style all elements except for the argument, e.g. a:not(.active) means
+style all the <a> tags that don't have the class 'active'. Typically using 'not'  is not as readable and can be slow
+
+------------------------------------------------------
+
+Positioning:
+A static position is given at default for the webpage
+
+Position can take either absolute, relative, fixed, or sticky (and static)
+
+Position properties take affect in the document flow (such as top, left, right, and bottom)
+
+Positioning has a context, which is how you move your current element relative to something else (e.g. some other div 
+or even the body tag)
+
+Values are only applied if they differ from default
+
+Fixed elements have the context of the viewport
+
+Position can be applied to block or inline elements
+
+Top, Left, Bottom, and Right can be used to clear the parent margin for the child element using fixed position
+
+To use z-index, you have to use the position property too since it doesn't work on static positions unless
+flexbox is being used.
+
+Absolute positioning context is based on either the closest ancestor with a non-static position property or the HTML element
+
+Fixed and Absolute take the elements out of the document flow, but not relative.
+
+Relative positioning context is the element itself, so moving it top: 50px will just move it down 50px from its current spot
+
+The 'overflow: hidden' property can let you hide elements that are outside of the parent (place the property on the parent).
+Good for if you're using relative positioning and it goes too far or something
+
+If the 'overflow: hidden' property is attached to the body element, then it will be moved to the HTML element 
+(default CSS behavior), so to "override" this, add it to both the HTML and the body rules (Works if HTML rule uses either
+'overflow: hidden' or 'overflow: auto')
+
+Sticky positioning is like a mix of fixed and relative. Without top/left/right/bottom, the element acts as if it has a
+relative position. However, the top/left/right/bottom properties let you specify a distance from the viewport where 
+the element starts to act as a fixed element but stays within the boundary of the parent element's content. The distance
+is taken from the viewport to the furthest out defined layer of the box model, basically the margin is not included.
+Example: Using sticky positioning with top: 0 will make it act as fixed as soon as the top of the viewport hits the 
+element, then the element will stay at the top of the viewport until it hits the bottom of the parent element's content.
+
+Stacking context is when using z-index with absolute/relative or when just using fixed and having the elements be on top of 
+other elements. This context is the nearest parent. So if I have fixed elements inside another fixed element and then 
+another fixed element at the same level, the nested elements cannot be stacked on top of the outside element unless their 
+parent element is also stacked on top.
+
+------------------------------------------------------
+
+Background:
+The property 'background-size: cover' will ensure you have no whitespace in your container your background image is in.
+
+The property 'background-repeat: no-repeat' disables the tileing background images do.
+
+The property 'background-size: contain' makes sure the full image is always visible.
+
+The property 'background-position:' has an x and y value. They can be px or %. X moves it from the left, y moves it from the
+top. The % references to whatever is cropped. For instance, if the y value was 100%, then the entire bottom of the image
+would be visible whereas the top is part that is cropped. Likewise, if it was 50% then an equal portion of the bottom is
+cropped along with an equal portion of the top. Can also use pre-defined values, like center or left top or be combined
+with %.
+
+Background-position, size, repeat, attachment, and origin only apply to background-image.
+
+Background-origin is helpful when using borders with images. They have similar values to box-sizing, so border-box will
+have the image start from the border whereas content-box will have the image start from the content (thus more whitespace);
+
+Background-clip says where to clip the image at and will override background-origin. So setting it to padding-box will clip
+(cut) the image off at the padding and therefore giving you whitespace than if you were to use border-box.
+
+Can set gradients using 'background-image: linear-gradient()' and passing in a position (like a degree or pre-defined value)
+and then color(s) e.g. background-image: linear-gradient(45deg, red, blue, transparent). Can also use radial-gradient, which
+defaults to an ellipse but can be changed to a circle and change the size of it as well as colors and when they stop (just
+like the linear gradient).
+
+Can have multiple background images but at most one color (not including gradients).
+
+------------------------------------------------------
+
+Units:
+Include pixels, percentages, rem, em, viewport height (vh), and viewport width (vw).
+
+Properties that need units: font-size, padding, border, margin, width, height, top, bottom, left and right.
+
+Pixels are absolute lengths and mostly ignore user settings. Viewport height and width adjust to current viewport. And
+rem and em adjust to the font size.
+
+Percentages are special cases that depend on the position property. If the element has the 'fixed' position, then the
+container is the viewport and thus setting a percentage is relative to the viewport. If the element has the 'absolute'
+position, then the container is a non-static  ancestor's content PLUS their padding and if there are no non-static elements
+then it uses the viewport as its container. If the element has the 'static' or 'relative' position, then the container 
+is the closest block level ancestor's content.
+
+Using 'em' means take my font size and multiply it by a value, e.g. 1.2em will multiply the current font size by 1.2. 
+The default font size is given by the browser (e.g. 16px). However, using em will inherit your parent's size. For instance,
+if an h2 tag is inside of a div and the div already has a property of 'font-size: 1.2em' and the h2 has a property of
+'font-size: 1.1em' with a default size of 16px, then the h2 text will actually be 1.32 * 16 rather than just 1.1 * 16.
+
+rem removes the inherit behavior that em uses (r in rem stands for root), so it only takes the browser font size instead of
+inheriting it from the parent when doing the size calculation.
+
+Use rem (or em) when you want things to change with the font size. This works for font-size of course but also for margin &
+padding, so when the font size increases the page size can increase and not become squished.
+
+Vh and vw are units that allow you to say a percentage of viewport you want to take up, e.g. 'width: 80vw', means take
+80% of the viewport for my width. vh and vw do not require the fixed position either.
+
+Recommended units: for font-size, its good to use rem or if you're setting it at the root level, use a %. For padding &
+margin, use rem. For border, use px. Width and height are good to use % or vw/vh. Top/bottom/left/right are great for % too.
+
+You can center items horizontally using 'margin: auto', however they need to be block level elements with an explicitly
+defined width.
+
+Using 100% height for static/relative items wont work unless you add it to the parent elements (HTML, body, and propagate
+all the way down to the your element) or by using vh/vw or fixed/absolute positioning.
+
+------------------------------------------------------
+
+Responsiveness:
+Can set a meta tag in the head of the html file with the name viewport and the content of 'width=device-width' along with
+some other options to make it so the page scales to the screen size. Required to adjust size to device viewport.
+
+Media Queries allow for design change depending on size whereas the viewport meta tag doesn't allow that. These design
+changes are controlled by us.
+
+Nowadays, you should start designing your website to work on mobile devices first before desktops. So the css here is
+designed for mobile devices then everything in the media query is designed for desktop and large devices.
+
+Can have as many media queries as you want.
+
+A good way to find breaking points (width limits for media queries) is by comparing mobile devices using mydevice.io and
+just look at what the CSS width is and then find the most common so you can make sure to support that.
+
+Media queries should go at the bottom of the CSS file.
+
+In media queries, you can use things such as min-width, min-height, orientation, etc. You can combine these conditions by
+using 'and' and to with commas (acts as an OR value). 
+
+------------------------------------------------------
+
+Text and Fonts:
+Generic families include serif, sans-serif, cursive, monospace and fantasy.
+
+Can display the browser default font, a generic family that you define in CSS, or a font family that lives on the user's
+computer, a web server (like google fonts), or a different server (like your backend).
+
+Using a web font (like google fonts) is better than assuming the user has the font locally.
+
+A font family is something like Times New Roman or Arial. Font families have font faces that have weights and styles.
+
+Need to import the font face in order to use it. Cant just import that font itself and try to set the weight to a different
+value (same goes with the style). You'll have to import that as well, like this: 
+https://fonts.googleapis.com/css2?family=Roboto:100i,400,900. This imports the Roboto family with 100 weight and italics,
+400 weight, and 900 weight.
+
+Some font file formats are .ttf (most popular), .woff, and .woff2.
+
+The font-variant property can let you use all caps on your font but not change the size.
+
+The letter-spacing property takes a length that will add spacing between your letters, e.g. 5px.
+
+The white-space property lets you introduce line breaks or stop word wrapping.
+
+The line-height property lets you set the height of the context box. And by default the height is set by the font family.
+When specifying the line height, it refers to the font size.
+
+The text-decoration property is used to add things like underlines to text. Its also helpful to remove underlines from
+<a> tags and not make them look like links.
+    
+The text-shadow property can give your text a shadow, similar to box-shadow, e.g. 'text-shadow: 2px 2px 7px gray;'.
+
+Font-display only works with custom imported fonts using @font-face but current browser support is bad.
+
+Block period for font-display is when you visit a website and the font hasn't loaded yet but there is an invisible font
+to hold the structure.
+
+Values that font-display can take are swap, block, fallback, or optional (or auto by default). If you use swap, then
+there is no block-period and the fallback font will be used then once the font is loaded, the swap period 
+begins (and never ends) and then the actual font is displayed. If you use block, then it has a short block period but
+then acts exactly how swap does. If using fallback, it has a very short block period, switches to fallback and then
+a short swap period to change fonts or else it just stays with the fallback font. If using optional, it also has a
+very short block period but has no swap period because the browser chooses to use the font or the fallback.
+
+------------------------------------------------------
+
+Flexbox:
+Can replace inline-block declarations by using flex instead.
+
+By using 'display: flex', the element will become a flex container and thus will hold other elements called flex items.
+
+The flex container has properties such as flex-flow, justify-content, align-content. and align-items. The children elements
+have properties such as order, flex, and align-self.
+
+By adding 'display: flex' to the parent element, the child elements are automatically flex items.
+
+The 'flex-wrap' property gives you control over how the elements will be wrapped if the page becomes too small to fit them.
+It will wrap items along the cross axis. Default is nowrap.
+
+The 'flex-direction' property gives you control over the main and cross axis. If you use 'row', then the main axis starts
+from the upper left corner and moves to the upper right whereas the cross axis moves from the upper left to the lower left.
+If you use 'row-reverse', then the main axis starts from the upper right corner and moves to the upper left whereas the cross
+axis moves from the upper right to lower right. If you use 'column', then the main axis starts from the upper left corner and
+moves to the lower left whereas the cross axis moves from the upper left to the upper right. If you use 'column-reverse',
+then the main axis starts in the lower left corer and moves to the upper left whereas the cross axis moves from the lower
+left to the lower right. Default is row.
+
+The 'align-items' property allows you to align your flex items along the CROSS axis. This has values such as center,
+flex-start, flex-end, stretch, baseline, etc. Baseline aligns items based on their content box. Default is stretch.
+
+The 'justify-content' property allows you to align your flex items along the MAIN axis. So it truly center items in the
+container use 'align-items: center' in conjunction with 'justify-content: center'.
+
+The 'align-content' property is similar to align-items where it uses the CROSS axis but focuses on all lines of the flex
+container rather than just a single line. So this property has no effect on single line containers.
+
+Margin collapsing does not happen in for flexbox items.
+
+Flex items have a property called 'order' that allows you to rearrange the item relative to the other flex items and the
+main axis. This property defaults to 0 and thus changing it so something like -1 (but keeping all other items at 0) will
+move the item to the front of main axis whereas 1 will move it to the back of the main axis. Think of it as a number line.
+
+The 'align-self' property is a flex item property that overrides the align-items property of the container for that specific
+item. This means its relative to the cross axis.
+
+Another flex item property is 'flex-grow'. This sets the growth multiplier when the screen gets larger so the item(s) can
+fill up the empty space. An item with a larger flex-grow value will expand faster (take more space) than one with a smaller
+flex-grow value. Flex-grow items will grow to the entire page width if the space is available. The default for flex-grow is 0.
+
+Another flex item property is 'flex-shrink'. This is similar to grow but deals for when the screen gets smaller. The default
+is 1, so if you set it to 0 then the item will not be allowed to shrink at all, and will never go under the defined width.
+If you set it to a value higher than 1, then it will shrink faster than items with a value of 1.
+
+Another flex item property is 'flex-basis'. This sets the size of the item based on the main axis, so it can set the width
+or the height, depending on the flex-direction. Flex-basis can also take percentages rather than just numbers.
+
+------------------------------------------------------
+
+CSS Grid:
+The element with 'display: grid' becomes a CSS grid and the child elements now become part of that grid.
+
+Going to the layout view in the dev tools can help with visualizing your grid.
+
+To specify the number of columns in your grid, use grid-template-columns. However, instead of saying how many columns here
+you need to specify the size, like this: 'grid-template-columns: 200px 2fr 20% 1fr;'. This will produce 4 columns, 1 of 200px,
+1 of 2fr, 1 of 20% of the space, and 1 of 1fr. The fr means fraction and is split among column 2 and 4 for the remaining
+space after the concrete values are given their space. So 4 evenly spaced columns could be something like 
+'grid-template-columns: 1fr 1fr 1fr 1fr;'. You could also use the repeat function, like 'repeat(4, 1fr)'.
+
+You can define rows by using 'grid-template-rows'. Works the same as columns above. An example to make two rows with a height
+of 5rem for row 1 and 2.5rem for row 2 is 'grid-template-rows: 5rem 2.5rem;'. Using fractions and percentages here can 
+give you values but its not very intuitive.
+
+You can change the position within the grid of the child elements using grid-column/row-start/end. These properties take grid
+lines (shown in the dev tools) of where to start and end. This allows elements to take more than 1 cell.
+
+You can use auto for setting grid column/row size to fill up the remaining space.
+
+Elements can overlap and occupy the same cell if you explicitly set this behavior. The one on top is the one that shows up
+later in the DOM.
+
+Can name rows & columns using [name] before the row definition. You can also add multiple names to a single row/column by
+separating them using whitespace within the square brackets.
+
+Can set gaps (aka gutters) between columns and rows using column-gap or row-gap and then a distance value instead of using
+margins within your grid. You could also just use 'gap' and specify the row then the column gaps.
+
+You can define named areas of the CSS grid using 'grid-template-areas' property. This takes string values that have the same
+amount of values per string as there are columns and the same amount of strings as there are rows. This allows you to place
+elements using those names rather than line numbers. An example would be if you have a 3x4 grid (3 rows, 4 columns) then
+you could specify areas like this: 'grid-template-areas: "header header header header" "side side main main" 
+"footer footer footer footer";' and then use them by simply using 'grid-area: header' and the element would fill the entire
+header space. If you want to leave certain cells unnamed, use '.' instead of a value.
+
+Grid-area does not respect DOM position.
+
+*/
+#product-overview {
+    /* The properties refer to the image only, that's why the 3 "images" are separated by commas. The color here
+    is used as a fallback incase the image cant load for whatever reason. The 10% means start the transition to 
+    my next color (in this case transparent) after 10% of the space has been used.*/
+    background: linear-gradient(to top, rgba(80, 68, 18, .6) 10%, transparent), 
+    url("assets/freedom.jpg") left 10% bottom 75%/cover no-repeat border-box, #ff1b68;
+
+    /* The above shorthand is the same as these lines; the last property can be broken up into origin clip if you want
+    background-image: url("freedom.jpg");
+    background-size: cover;
+    background-position: left 10% bottom 75%; /* same as just 10% and 25%. Crop only 10% of left and 75% of bottom
+    background-repeat: no-repeat;
+    background-origin: border-box;
+    background-clip: border-box; */
+
+    width: 100vw;
+    height: 33vh;
+    position: relative; /* Allows for me to move the h1 element freely using this as a reference */
+
+    /* Editing the box model properties
+    padding: 20px;
+    border: 5px black solid; /* shorthand property; order doesn't matter
+    margin: 20px; /* shorthand; can be T R B L, T&B L&R, or ALL */
+    
+}
+
+#product-overview h1 { /* Combinator */
+    color: white;
+    font-family: 'Anton', sans-serif;
+    position: absolute;
+    left: 5%;
+    bottom: 3%;
+    font-size: 1.6rem;
+}
+
+ /* Media query: says if we have a device with a width of at least 40rem (640px) and a height of at least 60rem, apply
+ the following styles. Make sure its underneath your other rules so it can override and if you have multiple
+ media queries, make sure to order them by ascending widths. Having them based on both height and width can help with
+ mobile devices going into landscape mode. */
+ @media (min-width: 40rem) and (min-height: 40rem) {
+    #product-overview {
+        height: 40vh;
+        background-position: 50% bottom 80%;
+    }
+    #product-overview h1 {
+        font-size: 3rem;
+    }
+}
+
+.section-title {
+    color: #2ddf5c;
+    text-align: center;
+}
+
+.plan {
+    background: #d5ffdc;
+    text-align: center;
+    padding: 1rem;
+    margin: .5rem 0;
+    width: 100%;
+}
+
+.plan--highlighted {
+    background: #19b84c;
+    color: white;
+}
+
+.plan__annotation {
+    background: white;
+    color: #19b84c;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
+    padding: .3125rem;
+    border-radius: 8px;
+}
+
+.plan__title {
+    color: #0e4f1f;
+}
+
+.plan__price {
+    color: #858585
+}
+
+.plan--highlighted .plan__title {
+    color: white;
+}
+
+.plan--highlighted .plan__price {
+    color: #0e4f1f
+}
+
+.plan__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.plan__feature {
+    margin: .5rem 0;
+}
+
+@media (min-width: 40rem) {
+    .plan__list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .plan {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 13rem; /* Restrict the sizes on larger screens */
+        max-width: 25rem;
+        height: 28rem;
+        margin: .5rem .3rem;
+    }
+
+    .plan--highlighted {
+        box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5); /* x-axis, y-axis, blur, spread, and color*/
+        height: 30rem;
+    }
+}
+
+#key-features {
+    background: #ff1b68;
+    margin-top: 6rem;
+    padding: 1rem;
+}
+
+#key-features .section-title {
+    color: white;
+    margin: 2rem;
+}
+
+.key-feature__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 40rem) {
+    .key-feature__list {
+        display: flex;
+        justify-content: center;
+    }
+
+    .key-feature {
+        width: 30%;
+        max-width: 25rem;
+    }
+}
+
+.key-feature__image {
+    background: #ffcede;
+    width: 128px;
+    border: 2px solid #424242;
+    border-radius: 50%; /* Need 50% for it to become a circle */
+    height: 128px;
+    margin: auto; /* Centers this horizontally */
+    padding: 1.25rem;
+}
+
+.key-feature__description {
+    text-align: center; /* Centers text in list item */
+    color: white;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.modal {
+    position: fixed;
+    display: none;
+    z-index: 2;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    background: white;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal__title {
+    text-align: center;
+    margin: 0 0 1rem 0;
+  }
+  
+  .modal__actions {
+    text-align: center;
+  }
+  
+  .modal__action {
+    border: 1px solid #0e4f1f;
+    background: #0e4f1f;
+    text-decoration: none;
+    color: white;
+    font: inherit;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  .modal__action:hover,
+  .modal__action:active {
+    background: #2ddf5c;
+    border-color: #2ddf5c;
+  }
+  
+  .modal__action--negative {
+    background: red;
+    border-color: red;
+  }
+  
+  .modal__action--negative:hover,
+  .modal__action--negative:active {
+    background: #ff5454;
+    border-color: #ff5454;
+  }

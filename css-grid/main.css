@@ -1,0 +1,51 @@
+.container {
+    margin: 20px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: [hd-start] repeat(4, [col-start] 25% [col-end]) [hd-end]; /* Can give names using repeat */
+    grid-template-rows: [hd-start row1] 5rem [hd-end row2] minmax(10px, auto) [row3] 100px [row-end];
+    /* Shorthand for gaps */
+    gap: 10px 20px;
+    /* Define areas of our grid using strings that match the number of columns and rows */
+    grid-template-areas: "header header header header" 
+                         "side side main main"
+                         "footer footer footer footer";
+}
+
+.el1 {
+    background: rgba(255, 154, 72, 0.5);
+    grid-column: col-start 2 / col-end 2; /* How to reference names that are used in repeat */
+}
+
+.el2 {
+    background: rgba(255, 0, 0, 0.5);
+    /* grid-column-start: 1;
+    grid-column-end: -1; /* Count columns starting from the right */
+
+    /* Shorthand for grid-column stuff. Be sure to add the slash
+    grid-column: 1 / -1;
+    grid-row-start: row2; */
+    grid-area: main;
+}
+
+.el3 {
+    background: rgba(0, 128, 0, 0.5);
+    /* grid-column-start: 2;
+    grid-column-end: span 3; /* span 3 cells, instead of using line numbers
+    grid-row-start: row1;
+    grid-row-end: row3; */
+
+    /* Even shorter shorthand that uses starting row, starting col, ending row, ending col
+    grid-area: row1 / 2 / row3 / span 3; */
+
+    /* Using template area names
+    grid-area: header; */
+
+    /* Using auto-generated area 'hd' due to named columns and rows using name-start/end notation */
+    grid-area: hd;
+}
+
+.el4 {
+    background: rgba(0, 4, 255, 0.5);
+    grid-area: footer;
+}
