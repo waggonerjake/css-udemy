@@ -3,6 +3,12 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 @import url('https://fonts.googleapis.com/css2?family=Anton');
 
+/* Select the whole document */
+:root {
+    --dark-green: #0e4f1f;
+    --highlight-color: #ff1b68;
+}
+
 /* Set every element to use border-box so we can set width and height including padding & border (not margin) */
 * {
     box-sizing: border-box;
@@ -12,15 +18,25 @@
 body {
     font-family: "Montserrat", sans-serif; /* Look for Montserrat, if it cant find it use sans-serif default font from browser */
     margin: 0;
-    display: grid;
-    grid-template-rows: 3.5rem auto fit-content(8rem); /* although the header doesn't go in the grid, we still make the 
-                                                        space for it so the other elements go skip past it. We use
-                                                        fit-content for the footer because it grows in size when we are
-                                                        on mobile devices. So 8rem isn't enough on mobile but is on desktop.*/
-    grid-template-areas: "."
-                         "main"
-                         "footer";
+    padding-top: 3.5rem;
 }
+
+/* Support query that checks if we can use grid, if we can, then add the grid specific stuff to the body */
+@supports (display: grid)
+{
+    body {
+        display: grid;
+        grid-template-rows: 3.5rem auto fit-content(8rem); /* although the header doesn't go in the grid, we still make the 
+                                                            space for it so the other elements go skip past it. We use
+                                                            fit-content for the footer because it grows in size when we are
+                                                            on mobile devices. So 8rem isn't enough on mobile but is on desktop.*/
+        grid-template-areas: "."
+                            "main"
+                            "footer";
+        padding-top: 0;
+    }
+}
+
 
 main {
    /* min-height: calc(100vh - 3.5rem - 8rem); /* full screen - size of nav bar - space for footer. This allows us
@@ -31,8 +47,10 @@ main {
 }
 
 .backdrop {
-    position: fixed;
     display: none;
+    position: fixed;
+    transition: opacity 0.2s linear;
+    opacity: 0;
     top: 0;
     left: 0;
     z-index: 2;
@@ -49,7 +67,12 @@ main {
     top: 0;
     left: 0;
     z-index: 1;
-    /* Align my items vertically and space them out from end to end using flexbox */
+    /* Use old, vendor prefixed versions of flexbox to support legacy browsers */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    /* Align my items vertically and space them out from end to end using flexbox. This display property will
+    override the other 3 above if it is recognized by the browser */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -78,7 +101,7 @@ main {
   }  
 
 .main-header__brand {
-    color: #0e4f1f;
+    color: var(--dark-green, #0e4f1f); /* Use the variable and have a fallback in case it isnt defined */
     text-decoration: none; /* removes underlining from hyperlink */
     font-weight: bold;
 }
@@ -106,7 +129,7 @@ main {
 
 .main-nav__item a,
 .mobile-nav__item a {
-    color: #0e4f1f;
+    color: var(--dark-green, #0e4f1f);
     text-decoration: none;
     font-weight: bold;
 }
@@ -125,11 +148,16 @@ main {
     border-bottom: 5px solid white;
 }
 
+.main-nav__item--cta {
+    /* Apply wiggle animation for 200ms, with a 3s delay, 8 times, and use ease-out as the time-function*/
+    animation: wiggle 400ms 3s 8 ease-out;
+}
+
 /* since this is after main-nav__item a it will override that rule */
 .main-nav__item--cta a,
 .mobile-nav__item--cta a {
     color: white;
-    background: #ff1b68;
+    background: var(--highlight-color, #ff1b68);
     padding: .5rem 1rem;
     border-radius: 8px; /* give a rounded border */
 }
@@ -138,14 +166,16 @@ main {
 .main-nav__item--cta a:active,
 .mobile-nav__item--cta a:hover,
 .mobile-nav__item--cta a:active{
-    color: #ff1b68;
+    color: var(--highlight-color, #ff1b68);
     background: white;
     border: none;
 }
 
 .mobile-nav {
     position: fixed;
-    display: none;
+    transform: translateX(-100%); /* Push the nav bar off the screen.
+                                     Open class will override this to just translateY(0) which means (0,0)*/
+    transition: transform .3s ease-out;
     z-index: 2;
     top: 0;
     left: 0;
@@ -176,10 +206,10 @@ main {
   }
 
 .button {
-    background: #0e4f1f;
+    background: var(--dark-green, #0e4f1f);
     color: white;
     font: inherit;
-    border: 1.5px solid #0e4f1f;
+    border: 1.5px solid var(--dark-green, #0e4f1f);
     padding: .5rem;
     border-radius: 8px;
     font-weight: bold;
@@ -189,7 +219,7 @@ main {
 .button:hover,
 .button:active {
     background: white;
-    color: #0e4f1f;
+    color: var(--dark-green, #0e4f1f);
 }
 
 /* Activated if you tab over it or after you click on it. We want to disable the outline. */
@@ -237,6 +267,8 @@ main {
 
 .open {
     display: block !important; /* Need to use important so we can override other styles from the shared file */
+    opacity: 1 !important;
+    transform: translateY(0) !important;
 }
 
 @media (min-width: 40rem) {
@@ -255,5 +287,19 @@ main {
     
     .main-footer__link {
         margin: 0 1rem;
+    }
+}
+
+/* Doesn't have to use transform. Can use things like color or font size. This transform is relative to its starting
+position, not the most recent keyframe. */
+@keyframes wiggle {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    50% {
+        transform: rotateZ(-10deg); /* Use 50% rather than alternate as it doesn't look as choppy */
+    }
+    100%  {
+        transform: rotateZ(10deg);
     }
 }

@@ -57,6 +57,24 @@ Can use the function minmax(min, max) to set a dynamic value within bounds. Good
 The 'fit-content()' function takes a default size that will be used as a minimum value or use as much space as is required
 by the elements content.
 
+Vendor prefixes allow you to support older browsers and rely on a specific implementation for a certain browser, so if the
+standard changes the browser will still support its vendor prefix. Can use shouldIPrefix to see if you need to use a prefix or
+use autoprefixer.
+
+Can have a support query (uses @support (property)) to check if the browser supports this feature.
+
+Polyfill is a JS package which enables CSS features in browsers that don't usually support it. However, it has to be loaded
+and parsed, so it can hit performance.
+
+Don't use camelCase for class names, but rather use kebab-case. Name your classes by feature rather than style.
+
+Use a Block__Element--modifier convention of naming classes.
+
+Things like Bootstrap or Foundation give you pre-styled components to use. Using vanilla CSS gives you full control and
+limits the amount of code but of course it takes forever and is manual. Component frameworks give you speed but little control
+over the style and comes with overhead. Plus, using component frameworks make pages look similar. Utility frameworks (like
+tailwind) give fast but not that fast development and some control.
+
 ------------------------------------------------------
 
 Selectors:
@@ -490,6 +508,29 @@ TranslateZ() does not act like z-index, it just moves it forward or back relativ
 The 'transform-style' property can be set on the container to either be flat (so rotating the container could potentially
 hide the children) or preserve-3d (which preserves where the child are in 3d space).
 
+------------------------------------------------------
+
+Transitions and Animations:
+Using the transition property, you can set what you want to watch, for how long to transition to the new value of the
+property you're watching, how you want to split up the time (ease-in, ease-out), and a delay. Essentially, we animate
+any changes to the properties we watch over a duration with an optional delay and an optional timing-function.
+It automatically reverses once the class is removed as well.
+
+Can use 'easings.net' to get some time-functions too.
+
+If you change the display of an element then transitions will not work regardless if your watching a property or not. You
+have to use JS to change the display then do the transitions, you can't do them at the same time. Check shared.js for how
+this is done with the backdrop and modal.
+
+Animations give you keyframes to apply styles to and let you control the style of an element at any given point in time.
+
+You give the element you want an animation by specifying keyframe and then using the animation property. This property lets
+you specify the name of the keyframe, the duration of the animation, the delay before the animation starts, a time function
+between iterations (like ease-out to start fast end slow), number of iterations, the direction (normal, reverse, alternate
+[go back and forth], and alternate reverse), the fill-mode (what value to use for the final state; the value of the last
+keyframe (forwards), the value of first keyframe (backwards), or both (which seems to be just like forwards)), and the
+play-state (paused or running).
+
 
 
 */
@@ -666,11 +707,18 @@ hide the children) or preserve-3d (which preserves where the child are in 3d spa
 
 .modal {
     position: fixed;
+    opacity: 0; /* hide the modal from view */
+    transform: translateY(-3rem);
     display: none;
+    /* What properties to watch and how long to transition to new value as well as how how that time is split. 
+    The timing function on the transform means that it starts slow but ends suddenly, this can be viewed in 
+    the dev tools. */
+    transition: opacity 200ms ease-out, transform 200ms cubic-bezier(0.32, 0, 0.67, 0);
     z-index: 2;
-    top: 20%;
-    left: 30%;
-    width: 40%;
+    top: 30%;
+    left: 20%;
+    width: 60%;
+    min-width: 188px;
     background: white;
     padding: 1rem;
     border: 1px solid #ccc;
@@ -711,4 +759,12 @@ hide the children) or preserve-3d (which preserves where the child are in 3d spa
   .modal__action--negative:active {
     background: #ff5454;
     border-color: #ff5454;
+  }
+
+  @media (min-width: 40rem) {
+    .modal {
+        top: 20%;
+        left: 30%;
+        width: 40%;
+    }
   }
